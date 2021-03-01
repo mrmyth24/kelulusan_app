@@ -1,0 +1,119 @@
+{% extends "main_layout.html" %}
+{% block content %}
+
+
+
+<div class="table-responsive">
+  {% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for category, message in get_flashed_messages(with_categories=True) %}
+				<div class="alert alert-success alert-dismissible "role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<div class="d-flex align-items-center">
+						<i class="bx bx-like"></i>
+						<span>
+							{{message}}
+						</span>
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+  
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>DATASET</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">DATASET</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+  
+            <!-- /.card -->
+  
+            <div class="card">
+              <div class="card-header">
+                <a href="/dataset_csv">
+                  <i class="fa fa-download"></i> <span>Download CSV</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="card-header">
+                <h3 class="card-title">Data Nilai</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>PTIK</th>
+                    <th>Sisdig</th>
+                    <th>Daspro</th>
+                    <th>Algoritma Pemograman</th>
+                    <th>ECS</th>
+                    <th>Matdis</th>
+                    <th>Arsitek</th>
+                    <th>Basis Data</th>
+                    <th>Metnum</th>
+                    <th>TBO</th>
+                    <th>Strukdat</th>
+                    <th>Sistem Basis Data</th>
+                    <th>Sistem Operasi</th>
+                    <th>Jarkom</th>
+                    <th>Keamanan Informasi</th>
+                    <th>RPL</th>
+                    <th>Sistem Informasi</th>
+                    <th>Kecerdasan Buatan</th>
+                    <th>MPTI</th>
+                    <th>Pemograman Bergerak</th>
+                    <th>Kerja Praktek</th>
+                    <th>TA</th>
+                    <th>Status Kelulusan</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for data in tables %}
+                    <tr class="even pointer">
+                        {% for row in data %}
+                            <td class="a-center ">{{row}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  </div>
+{% endblock %}

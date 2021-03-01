@@ -1,0 +1,106 @@
+{% extends "main_layout.html" %}
+{% block content %}
+
+
+ <div class="content-wrapper">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-default">
+            <div>
+              <div class="alert alert-{{category}} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-check"></i> {{category}}!</h5>
+                Berhasil Hapus Data Cleaning
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+    
+              <!-- /.card -->
+    
+              <div class="card">
+                <div class="card-header">
+                  <a href="/hapus_cleaning">
+                    <i class="fa fa-trash"></i> <span>Delete Data</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                </div>
+                <div class="card-header">
+                  <a href="/transformasi_csv">
+                    <i class="fa fa-edit"></i> <span>Transformasi</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>PTIK</th>
+                      <th>Sisdig</th>
+                      <th>Daspro</th>
+                      <th>Algoritma Pemograman</th>
+                      <th>ECS</th>
+                      <th>Matdis</th>
+                      <th>Arsitek</th>
+                      <th>Basis Data</th>
+                      <th>Metnum</th>
+                      <th>TBO</th>
+                      <th>Strukdat</th>
+                      <th>Sistem Basis Data</th>
+                      <th>Sistem Operasi</th>
+                      <th>Jarkom</th>
+                      <th>Keamanan Informasi</th>
+                      <th>RPL</th>
+                      <th>Sistem Informasi</th>
+                      <th>Kecerdasan Buatan</th>
+                      <th>MPTI</th>
+                      <th>Pemograman Bergerak</th>
+                      <th>Kerja Praktek</th>
+                      <th>TA</th>
+                      <th>Status Kelulusan</th>
+                    </tr>
+                    </thead>
+  
+                    <tbody>
+                      {% for data in tables %}
+                      <tr class="even pointer">
+                          {% for row in data %}
+                              <td class="a-center ">{{row}}</td>
+                          {% endfor %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+  
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+  
+    </div>
+{% endblock content%}

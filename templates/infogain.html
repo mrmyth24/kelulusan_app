@@ -1,0 +1,211 @@
+{% extends "main_layout.html" %}
+{% block content %}
+
+
+
+{% if datas %}
+<div class="content-wrapper">
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-default">
+          <div>
+            <div class="alert alert-{{category}} alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h5><i class="icon fas fa-check"></i> {{category}}!</h5>
+              Berhasil Menghitung Rangking Seleksi Fitur
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <a href="/hapus_session_gain_ratio">
+                <i class="fa fa-trash"></i> <span>Delete Data</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+            </div>
+            <div class="card-header">
+              <a href="/gain_ratio_csv">
+                <i class="fa fa-download"></i> <span>CSV Gain Ratio</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">Simple Full Width Table</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">Rangking</th>
+                    <th>Atribut</th>
+                    <th>nilai</th>
+
+                  </tr>
+                </thead>
+                  <tbody>
+                    {% for data in datas %}
+                    <tr class="even pointer">
+                        <!-- {% for row in data %}
+                            <td class="a-center ">{{row}}</td>
+                        {% endfor %} -->
+                        <td class="a-center ">{{loop.index}}</td>
+                        <td class="a-center ">{{data[1]}}</td>
+                        <td class="a-center ">{{data[0]}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <div class="col">
+          
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Simple Full Width Table</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">Rangking</th>
+                      <th>Atribut</th>
+                      <th>nilai</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for data in selects %}
+                    <tr class="even pointer">
+                            <td class="a-center ">{{loop.index}}</td>
+                            <td class="a-center ">{{data[1]}}</td>
+                            <td class="a-center ">{{data[0]}}</td>                  
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+        </div>
+      </div>
+    </div>
+</section>
+</div>
+
+
+
+
+  
+  </div>
+    {% else %}
+    <div class="content-wrapper">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card card-default">
+              <div>
+                <div class="alert alert-{{category}} alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h5><i class="icon fas fa-check"></i> {{category}}!</h5>
+                  Berhasil Menghapus Data
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      
+      <section class="content">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>General Form</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">General Form</li>
+                </ol>
+              </div>
+            </div>
+          </div><!-- /.container-fluid -->
+        </section>
+    
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- left column -->
+              <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Quick Example</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form class="" action="infogain" method="post">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="upload_gainratio" name="upload_gainratio">
+                            <label class="custom-file-label" for="upload_gainratio">Choose file</label>
+                          </div>
+                        </div>
+                        <label for="upload_rangking">Rangking</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="text" class="form-control" id="upload_rangking" name="upload_rangking" placeholder="Enter Rangking">
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+    
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div><!-- /.container-fluid -->
+        </section>
+        </div>
+        
+    
+  {% endif %}
+  
+
+{% endblock content%}
