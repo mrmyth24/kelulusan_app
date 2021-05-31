@@ -42,7 +42,7 @@ def dataset():
 
 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM nilai_test")
+        cur.execute("SELECT * FROM data_mahasiswa")
         fetchdata = cur.fetchall()
         cur.close()
         return render_template("dataset.html", tables = fetchdata)
@@ -51,13 +51,12 @@ def dataset():
 @app.route("/dataset_csv")
 def dataset_csv():
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM nilai_test")
+        cur.execute("SELECT * FROM data_mahasiswa")
         fetchdata = cur.fetchall()
         cur.close()
 
         with open("file/dataset_sistem.csv", "w", newline='', encoding='utf-8') as file:
-                a = csv.DictWriter(file, fieldnames=['nilai_ptik','nilai_sd','nilai_dp','nilai_ap','nilai_ecs','nilai_md','nilai_ak','nilai_bd','nilai_mn','nilai_tbo','nilai_std','nilai_sbd','nilai_so','nilai_jk','nilai_ki','nilai_rpl','nilai_si','nilai_kb','nilai_mpti','nilai_pb','nilai_kp','nilai_ta','status_kelulusan'])
-                # a = csv.DictWriter(file, fieldnames=['nilai_sd','nilai_dp','nilai_ap','nilai_md','nilai_bd','nilai_mn','nilai_std','nilai_sbd','nilai_kp','nilai_ta','ipk','status_kelulusan'])
+                a = csv.DictWriter(file, fieldnames=['nilai_sisdig','nilai_daspro','nilai_alpro','nilai_matdis','nilai_arkom','nilai_basdat','nilai_metnum','nilai_strukdat','nilai_sbd','nilai_so','nilai_jarkom','nilai_ki','nilai_rpl','nilai_si','nilai_pb','status_kelulusan'])
                 a.writeheader()
                 for row in fetchdata:
                         csv.writer(file, delimiter =',', quoting=csv.QUOTE_NONNUMERIC).writerow(row)
@@ -65,16 +64,17 @@ def dataset_csv():
         flash("Berhasil Membuat CSV", "success")
         return redirect("/dataset")
 
+
+
 @app.route("/transformasi_csv")
 def transformasi_csv():
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM nilai_transformasi")
+        cur.execute("SELECT * FROM data_transformation")
         fetchdata = cur.fetchall()
         cur.close()
 
         with open("file/data_transformasi.csv", "w", newline='', encoding='utf-8') as file:
-                a = csv.DictWriter(file, fieldnames=['nilai_ptik','nilai_sd','nilai_dp','nilai_ap','nilai_ecs','nilai_md','nilai_ak','nilai_bd','nilai_mn','nilai_tbo','nilai_std','nilai_sbd','nilai_so','nilai_jk','nilai_ki','nilai_rpl','nilai_si','nilai_kb','nilai_mpti','nilai_pb','nilai_kp','nilai_ta','status_kelulusan'])
-                # a = csv.DictWriter(file, fieldnames=['nilai_sd','nilai_dp','nilai_ap','nilai_md','nilai_bd','nilai_mn','nilai_std','nilai_sbd','nilai_kp','nilai_ta','ipk','status_kelulusan'])
+                a = csv.DictWriter(file, fieldnames=['nilai_sisdig','nilai_daspro','nilai_alpro','nilai_matdis','nilai_arkom','nilai_basdat','nilai_metnum','nilai_strukdat','nilai_sbd','nilai_so','nilai_jarkom','nilai_ki','nilai_rpl','nilai_si','nilai_pb','status_kelulusan'])
                 a.writeheader()
                 for row in fetchdata:
                         csv.writer(file, delimiter =',', quoting=csv.QUOTE_NONNUMERIC).writerow(row)
@@ -95,291 +95,207 @@ def form_action_upload(page):
         data_list_missing = df_missing.values.tolist()
         cur_missing = mysql.connection.cursor()
         for row in data_list_missing:
-            cur_missing.execute("INSERT INTO nilai_cleaning (nilai_ptik,nilai_sd,nilai_dp,nilai_ap,nilai_ecs,nilai_md,nilai_ak,nilai_bd,nilai_mn,nilai_tbo,nilai_std,nilai_sbd,nilai_so,nilai_jk,nilai_ki,nilai_rpl,nilai_si,nilai_kb,nilai_mpti,nilai_pb,nilai_kp,nilai_ta,status_kelulusan) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],row[10], row[11], row[12], row[13], row[14], row[15],row[16],row[17],row[18],row[19],row[20],row[21],row[22]))
+            cur_missing.execute("INSERT INTO nilai_cleaning (nilai_sisdig,nilai_daspro,nilai_alpro,nilai_matdis,nilai_arkom,nilai_basdat,nilai_metnum,nilai_strukdat,nilai_sbd,nilai_so,nilai_jarkom,nilai_ki,nilai_rpl,nilai_si,nilai_pb,status_kelulusan) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],row[10], row[11], row[12], row[13], row[14], row[15]))
             mysql.connection.commit()
        
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('A'))] = '4.00'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('A'))] = '4.00'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('A'))] = '4.00'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('A'))] = '4.00'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('A'))] = '4.00'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('A'))] = '4.00'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('A'))] = '4.00'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('A'))] = '4.00'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('A'))] = '4.00'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('A-'))] = '3.70'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('A-'))] = '3.70'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('A-'))] = '3.70'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('A-'))] = '3.70'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('A-'))] = '3.70'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('A-'))] = '3.70'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('A-'))] = '3.70'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('A-'))] = '3.70'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('A-'))] = '3.70'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('B+'))] = '3.30'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('B+'))] = '3.30'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('B+'))] = '3.30'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('B+'))] = '3.30'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('B+'))] = '3.30'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('B+'))] = '3.30'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('B+'))] = '3.30'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('B+'))] = '3.30'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('B+'))] = '3.30'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('B'))] = '3.00'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('B'))] = '3.00'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('B'))] = '3.00'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('B'))] = '3.00'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('B'))] = '3.00'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('B'))] = '3.00'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('B'))] = '3.00'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('B'))] = '3.00'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('B'))] = '3.00'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('B-'))] = '2.70'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('B-'))] = '2.70'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('B-'))] = '2.70'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('B-'))] = '2.70'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('B-'))] = '2.70'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('B-'))] = '2.70'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('B-'))] = '2.70'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('B-'))] = '2.70'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('B-'))] = '2.70'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('C+'))] = '2.30'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('C+'))] = '2.30'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('C+'))] = '2.30'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('C+'))] = '2.30'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('C+'))] = '2.30'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('C+'))] = '2.30'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('C+'))] = '2.30'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('C+'))] = '2.30'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('C+'))] = '2.30'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('C'))] = '2.00'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('C'))] = '2.00'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('C'))] = '2.00'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('C'))] = '2.00'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('C'))] = '2.00'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('C'))] = '2.00'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('C'))] = '2.00'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('C'))] = '2.00'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('C'))] = '2.00'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('C-'))] = '1.70'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('C-'))] = '1.70'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('C-'))] = '1.70'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('C-'))] = '1.70'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('C-'))] = '1.70'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('C-'))] = '1.70'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('C-'))] = '1.70'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('C-'))] = '1.70'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('C-'))] = '1.70'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('D+'))] = '1.30'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('D+'))] = '1.30'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('D+'))] = '1.30'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('D+'))] = '1.30'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('D+'))] = '1.30'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('D+'))] = '1.30'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('D+'))] = '1.30'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('D+'))] = '1.30'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('D+'))] = '1.30'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('D'))] = '1.00'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('D'))] = '1.00'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('D'))] = '1.00'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('D'))] = '1.00'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('D'))] = '1.00'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('D'))] = '1.00'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('D'))] = '1.00'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('D'))] = '1.00'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('D'))] = '1.00'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('D-'))] = '0.50'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('D-'))] = '0.50'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('D-'))] = '0.50'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('D-'))] = '0.50'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('D-'))] = '0.50'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('D-'))] = '0.50'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('D-'))] = '0.50'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('D-'))] = '0.50'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('D-'))] = '0.50'
 
-        data_csv['nilai_ptik'].loc[(data_csv['nilai_ptik'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_sd'].loc[(data_csv['nilai_sd'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_dp'].loc[(data_csv['nilai_dp'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_ap'].loc[(data_csv['nilai_ap'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_ecs'].loc[(data_csv['nilai_ecs'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_md'].loc[(data_csv['nilai_md'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_ak'].loc[(data_csv['nilai_ak'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_bd'].loc[(data_csv['nilai_bd'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_mn'].loc[(data_csv['nilai_mn'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_tbo'].loc[(data_csv['nilai_tbo'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_std'].loc[(data_csv['nilai_std'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_sisdig'].loc[(data_csv['nilai_sisdig'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_daspro'].loc[(data_csv['nilai_daspro'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_alpro'].loc[(data_csv['nilai_alpro'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_matdis'].loc[(data_csv['nilai_matdis'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_arkom'].loc[(data_csv['nilai_arkom'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_basdat'].loc[(data_csv['nilai_basdat'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_metnum'].loc[(data_csv['nilai_metnum'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_strukdat'].loc[(data_csv['nilai_strukdat'].astype(str) == str('E'))] = '0.00'
         data_csv['nilai_sbd'].loc[(data_csv['nilai_sbd'].astype(str) == str('E'))] = '0.00'
         data_csv['nilai_so'].loc[(data_csv['nilai_so'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_jk'].loc[(data_csv['nilai_jk'].astype(str) == str('E'))] = '0.00'
+        data_csv['nilai_jarkom'].loc[(data_csv['nilai_jarkom'].astype(str) == str('E'))] = '0.00'
         data_csv['nilai_ki'].loc[(data_csv['nilai_ki'].astype(str) == str('E'))] = '0.00'
         data_csv['nilai_rpl'].loc[(data_csv['nilai_rpl'].astype(str) == str('E'))] = '0.00'
         data_csv['nilai_si'].loc[(data_csv['nilai_si'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_kb'].loc[(data_csv['nilai_kb'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_mpti'].loc[(data_csv['nilai_mpti'].astype(str) == str('E'))] = '0.00'
         data_csv['nilai_pb'].loc[(data_csv['nilai_pb'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_kp'].loc[(data_csv['nilai_kp'].astype(str) == str('E'))] = '0.00'
-        data_csv['nilai_ta'].loc[(data_csv['nilai_ta'].astype(str) == str('E'))] = '0.00'
 
         df_inisialisasi = pd.DataFrame(data_csv)
         data_list_inisialisasi = df_inisialisasi.values.tolist()
         cur_missing = mysql.connection.cursor()
         for row in data_list_inisialisasi:
-            cur_missing.execute("INSERT INTO nilai_transformasi (nilai_ptik,nilai_sd,nilai_dp,nilai_ap,nilai_ecs,nilai_md,nilai_ak,nilai_bd,nilai_mn,nilai_tbo,nilai_std,nilai_sbd,nilai_so,nilai_jk,nilai_ki,nilai_rpl,nilai_si,nilai_kb,nilai_mpti,nilai_pb,nilai_kp,nilai_ta,status_kelulusan) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],row[10], row[11], row[12], row[13], row[14], row[15],row[16],row[17],row[18],row[19],row[20],row[21],row[22]))
+            cur_missing.execute("INSERT INTO data_transformation (nilai_sisdig,nilai_daspro,nilai_alpro,nilai_matdis,nilai_arkom,nilai_basdat,nilai_metnum,nilai_strukdat,nilai_sbd,nilai_so,nilai_jarkom,nilai_ki,nilai_rpl,nilai_si,nilai_pb,status_kelulusan) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],row[10], row[11], row[12], row[13], row[14], row[15]))
             mysql.connection.commit()
         
         cur_missing.close()
@@ -521,7 +437,7 @@ def infogain():
 @app.route("/transformasi")
 def transformasiku():
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM nilai_transformasi ")
+        cur.execute("SELECT * FROM data_transformation ")
         fetchdata = cur.fetchall()
         cur.close()
         return render_template("transformasi.html", tables = fetchdata)
@@ -530,7 +446,7 @@ def transformasiku():
 def hapus_cleaning():
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM nilai_cleaning")
-    cur.execute("DELETE FROM nilai_transformasi")
+    cur.execute("DELETE FROM data_transformation")
     mysql.connection.commit()
     cur.close()
 
@@ -574,7 +490,7 @@ def gain_ratio_csv():
         output = ','.join(map(str, select))
 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT "+output+",status_kelulusan FROM nilai_transformasi")
+        cur.execute("SELECT "+output+",status_kelulusan FROM data_transformation")
         fetchdata = cur.fetchall()
         cur.close()
 
